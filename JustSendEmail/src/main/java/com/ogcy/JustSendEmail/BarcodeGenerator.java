@@ -54,6 +54,7 @@ public class BarcodeGenerator {
 		    g.drawImage(logoImage, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
 		    // Write combined image as PNG to OutputStream
 		    ImageIO.write(combined, "png", new File("output.png"));
+		    //ImageIO.write(im, formatName, output)
 		    System.out.println("done");
 		} catch (Exception e) {
 		    System.out.println(e);

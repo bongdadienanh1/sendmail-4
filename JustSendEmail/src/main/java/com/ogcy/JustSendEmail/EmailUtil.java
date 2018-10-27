@@ -1,12 +1,19 @@
 package com.ogcy.JustSendEmail;
 
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageOutputStream;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -17,6 +24,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 public class EmailUtil {
 
@@ -56,7 +64,7 @@ public class EmailUtil {
 	      e.printStackTrace();
 	    }
 	}
-	   public static void sendImageEmail(Session session, String toEmail, String subject, String body){
+	   public static void sendImageEmail(Session session, String toEmail, String subject, String body) throws IOException{
 	    	try{
 	             MimeMessage msg = new MimeMessage(session);
 	             msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
@@ -87,7 +95,16 @@ public class EmailUtil {
 	             // Second part is image attachment
 	             messageBodyPart = new MimeBodyPart();
 	             String filename = "logo.png";
-	             DataSource source = new FileDataSource(filename);
+	             BufferedImage combined = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+	 		     Graphics2D g = (Graphics2D) combined.getGraphics();
+	 		     g.drawLine(0, 0, 100, 100);
+	 		     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+	 		     ImageIO.write(combined, "png", bytes);
+	 		     
+	 		     byte[] bytes2 = bytes.toByteArray();
+	 		     
+	             DataSource source = new ByteArrayDataSource(bytes2, "image/png");
+	             
 	             messageBodyPart.setDataHandler(new DataHandler(source));
 	             messageBodyPart.setFileName(filename);
 	             //Trick is to add the content-id header here

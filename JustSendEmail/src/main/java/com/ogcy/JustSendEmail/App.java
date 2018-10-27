@@ -6,6 +6,8 @@ import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import com.ogcy.JustSendEmail.*;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
@@ -25,7 +27,7 @@ import javax.mail.internet.MimeMultipart;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws IOException
     {
     	final String fromEmail = "obeikanvisitors@gmail.com"; //requires valid gmail id
 		final String password = "Obeikan@2018"; // correct password for gmail id
